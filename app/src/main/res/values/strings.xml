@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Astro</string>
+
+    //menu
+    <string name="astro">AstroWeather</string>
+    <string name="start">Start</string>
+    <string name="options">Options</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
+
+
+</resources>
