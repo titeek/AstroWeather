@@ -8,12 +8,19 @@
     <string name="about">About</string>
     <string name="exit">Exit</string>
 
-    //about strings
+    //about
     <string name="poweredBy">Powered by:</string>
     <string name="author">Krystian Bendinger</string>
     <string name="version">Version:</string>
     <string name="versionNO">0.1</string>
     <string name="abouts">Astro Weather App</string>
+
+    //options
+    <string name="localization">Localization</string>
+    <string name="width">Width:</string>
+    <string name="height">Height:</string>
+    <string name="refreshing">Refreshing</string>
+    <string name="min">min</string>
 
 
 </resources>
