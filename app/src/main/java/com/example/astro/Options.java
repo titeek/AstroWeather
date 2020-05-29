@@ -2,10 +2,13 @@ package com.example.astro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,12 +19,12 @@ public class Options extends AppCompatActivity implements AdapterView.OnItemSele
     String[] width={"N", "S"};
     String[] height={"W", "E"};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-//Getting the instance of Spinner and applying OnItemSelectedListener on it
         Spinner refreshingSpinner = (Spinner) findViewById(R.id.refreshingSpinner);
         refreshingSpinner.setOnItemSelectedListener(this);
         Spinner widthSpinner = (Spinner) findViewById(R.id.widthSpinner);
@@ -29,7 +32,6 @@ public class Options extends AppCompatActivity implements AdapterView.OnItemSele
         Spinner heightSpinner = (Spinner) findViewById(R.id.heightSpinner);
         heightSpinner.setOnItemSelectedListener(this);
 
-//Creating the ArrayAdapter instance having the bank name list
         ArrayAdapter refreshingSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,minutes);
         refreshingSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         refreshingSpinner.setAdapter(refreshingSpinnerAdapter);
@@ -41,6 +43,25 @@ public class Options extends AppCompatActivity implements AdapterView.OnItemSele
         ArrayAdapter heightSpinnerAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,height);
         heightSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         heightSpinner.setAdapter(heightSpinnerAdapter);
+
+        Button startButton = (Button) findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText latitudeText = (EditText) findViewById(R.id.widthEditText);
+                String latitude = latitudeText.getText().toString();
+                EditText longitudeText = (EditText) findViewById(R.id.heightEditText);
+                String longitude = longitudeText.getText().toString();
+                TextView minTextView = (TextView) findViewById(R.id.minTextEdit);
+                String sleepTime = minTextView.getText().toString();
+
+                Intent startIntent = new Intent(getApplicationContext(), AstroActivity.class);
+                startIntent.putExtra("latitude", latitude);
+                startIntent.putExtra("longitude", longitude);
+                startIntent.putExtra("sleepTime", sleepTime);
+                startActivity(startIntent);
+            }
+        });
     }
 
 

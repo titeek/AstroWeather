@@ -17,10 +17,35 @@
 
     //options
     <string name="localization">Localization</string>
-    <string name="width">Width:</string>
-    <string name="height">Height:</string>
+    <string name="width">Longtutide:</string>
+    <string name="height">Latutide:</string>
     <string name="refreshing">Refreshing</string>
     <string name="min">min</string>
+
+    //astro
+    <string name="sun">Sun</string>
+    <string name="moon">Moon</string>
+
+    //sun
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="dawn">Dawn</string>
+    <string name="dusk">Dusk</string>
+    <string name="time">Current time: </string>
+    <string name="azymut">Azimuth</string>
+
+
+    //moon
+    <string name="moonrise">Moonrise</string>
+    <string name="moonset">Moonset</string>
+    <string name="nearest">New moon</string>
+    <string name="full">Full Moon</string>
+    <string name="phase">Phase</string>
+    <string name="day">Age</string>
+    <string name="gps">Coordinates: </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
