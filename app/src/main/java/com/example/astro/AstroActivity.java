@@ -19,6 +19,10 @@ public class AstroActivity extends FragmentActivity {
     double latitude, longitude;
     double sleepTime;
 
+    private volatile Thread clockThread;
+    private volatile Thread refreshDataThread;
+    AstroCalculator astroCalculator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +40,26 @@ public class AstroActivity extends FragmentActivity {
         sleepTime = sleepTime * 60 * 1000;
 
         AstroCalculator.Location location = new AstroCalculator.Location(latitude, longitude);
-        AstroDateTime astroDateTime = new AstroDateTime(2020, 5, 28, 22, 00, 00, 2, false);
+        AstroDateTime astroDateTime = new AstroDateTime(year, month, day, hour, minute, second, 2, false);
 
-        final AstroCalculator astroCalculator = new AstroCalculator(astroDateTime, location);
+        astroCalculator = new AstroCalculator(astroDateTime, location);
 
-        Thread t = new Thread() {
+    }
+
+    protected void onStart() {
+        super.onStart();
+        startClockThread();
+        startRefreshDataThread(astroCalculator);
+    }
+
+    protected void onStop() {
+        super.onStop();
+        stopClockThread();
+        stopRefreshDataThread();
+    }
+
+    private void startClockThread() {
+        clockThread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -48,11 +67,11 @@ public class AstroActivity extends FragmentActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                TextView tdate = (TextView) findViewById(R.id.timeText);
-                                long date = System.currentTimeMillis();
-                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                                String dateString = sdf.format(date);
-                                tdate.setText(dateString);
+                                TextView clock = (TextView) findViewById(R.id.timeText);
+                                long clockTime = System.currentTimeMillis();
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                                String dateString = simpleDateFormat.format(clockTime);
+                                clock.setText(dateString);
                             }
                         });
                         Thread.sleep(1000);
@@ -61,9 +80,15 @@ public class AstroActivity extends FragmentActivity {
                 }
             }
         };
-        t.start();
+        clockThread.start();
+    }
 
-        Thread s = new Thread() { //odswiezanie co 15 min danych
+    private void stopClockThread() {
+        clockThread = null;
+    }
+
+    private void startRefreshDataThread(final AstroCalculator astroCalculator) {
+        refreshDataThread = new Thread() { //odswiezanie co 15 min danych
             @Override
             public void run() {
                 try {
@@ -81,10 +106,14 @@ public class AstroActivity extends FragmentActivity {
                 }
             }
         };
-        s.start();
+        refreshDataThread.start();
     }
 
-    public void setData() {
+    private void stopRefreshDataThread() {
+        refreshDataThread = null;
+    }
+
+    private void setData() {
         long date = System.currentTimeMillis();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
@@ -111,7 +140,12 @@ public class AstroActivity extends FragmentActivity {
         dateString = simpleDateFormat.format(date);
         second = Integer.parseInt(dateString);
 
-
+        year = 2020;
+        month = 5;
+        day = 31;
+        hour = 22;
+        minute = 0;
+        second = 0;
     }
 
 
