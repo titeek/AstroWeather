@@ -32,7 +32,8 @@
     <string name="dawn">Dawn</string>
     <string name="dusk">Dusk</string>
     <string name="time">Current time: </string>
-    <string name="azymut">Azimuth</string>
+    <string name="azymutSunrise">Azimuth Sunrise</string>
+    <string name="azymutSunset">Azimuth Sunset</string>
 
 
     //moon

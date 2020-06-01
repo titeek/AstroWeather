@@ -208,7 +208,8 @@ public class AstroActivity extends FragmentActivity {
 
     public void showAzimuthRise(AstroCalculator astroCalculator){
         double azimuthRise = astroCalculator.getSunInfo().getAzimuthRise();
-        String azimuthRiseString = Double.toString(azimuthRise);
+        azimuthRise = Math.round(azimuthRise * 100);
+        String azimuthRiseString = Double.toString(azimuthRise/100);
 
         TextView azimuthRiseTextView = (TextView) findViewById(R.id.sunriseAzymutText);
         azimuthRiseTextView.setText(azimuthRiseString);
@@ -217,7 +218,8 @@ public class AstroActivity extends FragmentActivity {
 
     public void showAzimuthSet(AstroCalculator astroCalculator){
         double azimuthSet = astroCalculator.getSunInfo().getAzimuthSet();
-        String azimuthSetString = Double.toString(azimuthSet);
+        azimuthSet = Math.round(azimuthSet * 100);
+        String azimuthSetString = Double.toString(azimuthSet/100);
 
         TextView azimuthSetTextView = (TextView) findViewById(R.id.sunsetAzymutText);
         azimuthSetTextView.setText(azimuthSetString);
@@ -267,7 +269,8 @@ public class AstroActivity extends FragmentActivity {
     public void showIllumination(AstroCalculator astroCalculator){
         double illumination = astroCalculator.getMoonInfo().getIllumination();
         illumination = illumination * 100;
-        String illuminationString = Double.toString(illumination);
+        illumination = Math.round(illumination * 100);
+        String illuminationString = Double.toString(illumination/100);
 
         TextView azimuthSetTextView = (TextView) findViewById(R.id.phaseText);
         azimuthSetTextView.setText(illuminationString);
@@ -275,7 +278,8 @@ public class AstroActivity extends FragmentActivity {
 
     public void showAge(AstroCalculator astroCalculator){
         double age = astroCalculator.getMoonInfo().getAge();
-        String ageString = Double.toString(age);
+        age = Math.round(age * 100);
+        String ageString = Double.toString(age/100);
 
         TextView ageTextView = (TextView) findViewById(R.id.dayText);
         ageTextView.setText(ageString);
