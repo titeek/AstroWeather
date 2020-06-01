@@ -2,12 +2,18 @@ package com.example.astro;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 
 import org.w3c.dom.Text;
 
@@ -22,6 +28,12 @@ public class AstroActivity extends FragmentActivity {
     private volatile Thread clockThread;
     private volatile Thread refreshDataThread;
     AstroCalculator astroCalculator;
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private TabItem sunTab, moonTab;
+    private PageAdapter pagerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +56,45 @@ public class AstroActivity extends FragmentActivity {
 
         astroCalculator = new AstroCalculator(astroDateTime, location);
 
+
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        sunTab = (TabItem) findViewById(R.id.sunTab);
+        moonTab = (TabItem) findViewById(R.id.moonTab);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        if(tabLayout != null) {
+            pagerAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+            viewPager.setAdapter(pagerAdapter);
+
+
+
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+
+                    if(tab.getPosition() == 0) {
+                        pagerAdapter.notifyDataSetChanged();
+                    } else if(tab.getPosition() == 1) {
+                        pagerAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        }
+
+        sleepTime = 100;
     }
 
     protected void onStart() {
@@ -51,6 +102,7 @@ public class AstroActivity extends FragmentActivity {
         startClockThread();
         startRefreshDataThread(astroCalculator);
     }
+
 
     protected void onStop() {
         super.onStop();
@@ -74,7 +126,7 @@ public class AstroActivity extends FragmentActivity {
                                 clock.setText(dateString);
                             }
                         });
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     }
                 } catch (InterruptedException e) {
                 }
@@ -84,11 +136,11 @@ public class AstroActivity extends FragmentActivity {
     }
 
     private void stopClockThread() {
-        clockThread = null;
+        clockThread.interrupt();
     }
 
     private void startRefreshDataThread(final AstroCalculator astroCalculator) {
-        refreshDataThread = new Thread() { //odswiezanie co 15 min danych
+        refreshDataThread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -110,7 +162,7 @@ public class AstroActivity extends FragmentActivity {
     }
 
     private void stopRefreshDataThread() {
-        refreshDataThread = null;
+        refreshDataThread.interrupt();
     }
 
     private void setData() {
